@@ -66,3 +66,91 @@ Fornisce funzionalità per gestire grafica, suoni, eventi e interazioni con la t
 3. (Facoltativo) Crea un ambiente virtuale:
    ```bash
    python -m venv .venv
+Attiva l’ambiente virtuale:
+
+Su Windows: .\.venv\Scripts\activate
+
+Su macOS/Linux: source .venv/bin/activate
+
+Installa Pygame:
+
+bash
+Copia codice
+pip install pygame
+Aggiungi nella cartella di progetto l’immagine di sfondo sfondo.png.
+
+Codice della Lezione 1
+In questa lezione creeremo un semplice programma Pygame che visualizza una finestra con un’immagine di sfondo.
+Apri un nuovo file Python chiamato lesson_1.py.
+
+Importazione di Pygame
+Per prima cosa, importiamo i moduli necessari:
+
+python
+Copia codice
+import pygame
+import sys
+Definizione delle Costanti
+Definiamo la larghezza e l’altezza della finestra:
+
+python
+Copia codice
+# Costanti
+WIDTH, HEIGHT = 800, 600
+Inizializzazione di Pygame e Creazione della Finestra
+Inizializziamo Pygame e impostiamo la finestra di gioco:
+
+python
+Copia codice
+pygame.init()
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Salva la Principessa - Mario vs Bear")
+Caricamento dell’Immagine di Sfondo
+Carichiamo lo sfondo da file e lo adattiamo alle dimensioni della finestra:
+
+python
+Copia codice
+background = pygame.image.load("sfondo.png").convert()
+background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+Creazione del Ciclo Principale
+Ora creiamo il loop principale del gioco, che rimane attivo fino alla chiusura della finestra:
+
+python
+Copia codice
+clock = pygame.time.Clock()
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Disegna lo sfondo
+    screen.blit(background, (0, 0))
+    pygame.display.flip()
+
+    clock.tick(60)
+
+pygame.quit()
+sys.exit()
+Esecuzione del Programma
+Salva il file e avvialo dal terminale:
+
+bash
+Copia codice
+python lesson_1.py
+Dovresti vedere una finestra 800x600 con l’immagine di sfondo.
+
+Riepilogo
+In questa prima lezione abbiamo:
+
+Inizializzato Pygame e creato una finestra di gioco.
+
+Caricato e visualizzato un’immagine di sfondo.
+
+Implementato un loop principale che mantiene attivo il gioco.
+
+Nella prossima lezione aggiungeremo Mario, le piattaforme e la gravità per iniziare a dare vita al nostro personaggio.
+
+Continua alla Lezione 2 →
