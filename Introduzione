@@ -1,0 +1,68 @@
+# Lezione 1: Inizia lo sviluppo del gioco con Pygame
+
+## Introduzione
+
+Benvenuto nella serie di tutorial **Salva la Principessa – Mario vs Bear**!  
+In questa serie imparerai a creare un semplice gioco platform in 2D utilizzando **Pygame**, un insieme di moduli Python pensato per lo sviluppo di videogiochi.
+
+## Descrizione del Gioco
+
+In **Salva la Principessa**, impersoni **Mario**, che deve saltare sulle piattaforme, evitare i gusci che cadono dal cielo e raggiungere la **Principessa Peach**, mentre un **orso** la sorveglia.
+
+Il tuo obiettivo è salvare la principessa senza perdere tutte le vite.
+
+## Come si Gioca
+
+- **Freccia Destra:** Muovi Mario verso destra.  
+- **Freccia Sinistra:** Muovi Mario verso sinistra.  
+- **Barra Spaziatrice:** Fai saltare Mario.  
+- **Evita i gusci:** Se vieni colpito, perdi una vita.  
+- **Raggiungi la principessa:** Vinci la partita.
+
+Se perdi tutte le vite, la partita termina con la sconfitta.
+
+## Struttura Tecnica
+
+1. **Inizializzazione di Pygame:** Creazione della finestra di gioco e avvio del motore grafico.  
+2. **Gestione della Finestra:** Impostazione delle dimensioni e del titolo del gioco.  
+3. **Caricamento delle Immagini:** Aggiunta dello sfondo e dei personaggi.  
+4. **Gestione del Giocatore:** Movimento, gravità e salto.  
+5. **Loop Principale:** Controllo continuo di eventi, logica di gioco e disegno sullo schermo.
+
+## Struttura del Tutorial
+
+Questo corso è diviso in **4 lezioni**. Costruiremo il gioco passo dopo passo:
+
+1. **Lezione 1:** Creare la finestra e mostrare lo sfondo.  
+2. **Lezione 2:** Aggiungere Mario, le piattaforme e la gravità.  
+3. **Lezione 3:** Creare i gusci cadenti e il sistema di vite.  
+4. **Lezione 4:** Aggiungere il menu, la vittoria e le schermate finali.
+
+Alla fine del corso, avrai realizzato un videogioco 2D completo e compreso le basi fondamentali di Pygame.
+
+## Introduzione a Pygame
+
+### Cos’è Pygame?
+
+[Pygame](https://www.pygame.org/) è un insieme di moduli Python progettato per scrivere videogiochi.  
+Fornisce funzionalità per gestire grafica, suoni, eventi e interazioni con la tastiera e il mouse.
+
+### Perché usare Pygame?
+
+- **Semplice da usare:** API intuitive, ideali per chi inizia.  
+- **Integrazione con Python:** Sfrutta la leggibilità e la semplicità di Python.  
+- **Comunità attiva:** Tantissime risorse, tutorial e progetti condivisi.  
+- **Ottimo per imparare:** Perfetto per avvicinarsi alla programmazione di giochi.
+
+## Requisiti
+
+- **Python 3.12** (o versione successiva)  
+- **[Pygame](https://www.pygame.org/)** installato nel tuo ambiente
+
+## Preparazione
+
+1. Installa Python 3.12 se non lo hai già.  
+2. Crea una cartella di progetto, ad esempio `salva_la_principessa`, e aprila nel tuo editor.  
+3. (Facoltativo) Crea un ambiente virtuale:
+   ```bash
+   python -m venv .venv
