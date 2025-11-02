@@ -2,6 +2,7 @@ import pygame
 import sys
 import random
 
+# --- Inizializzazione ---
 pygame.init()
 
 # --- Costanti ---
@@ -22,12 +23,10 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 200, 0)
 BLACK = (0, 0, 0)
-GRAY = (200, 200, 200)
-LIGHT_GRAY = (230, 230, 230)
 
 # --- Setup finestra ---
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Salva la principessa - Mario vs Donkey Kong")
+pygame.display.set_caption("Salva la Principessa - Mario vs Donkey Kong")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 72)
 font_small = pygame.font.SysFont("arial", 32, bold=True)
@@ -94,11 +93,10 @@ def draw_vite(vite):
             screen.blit(cuore_grigio, (heart_x, y_offset))
 
 def show_message(text, color):
-    """Mostra un messaggio centrato con rettangolo adattivo e testo elegante"""
+    """Mostra un messaggio centrato con effetto visivo"""
     message = font.render(text, True, color)
     text_rect = message.get_rect()
 
-    # Rettangolo dinamico basato sulla dimensione del testo
     padding_x, padding_y = 60, 40
     box_width = text_rect.width + padding_x
     box_height = text_rect.height + padding_y
@@ -109,22 +107,18 @@ def show_message(text, color):
         box_height
     )
 
-    # Sfondo semitrasparente dietro il messaggio
     overlay = pygame.Surface((WIDTH, HEIGHT))
     overlay.set_alpha(150)
     overlay.fill((0, 0, 0))
     screen.blit(overlay, (0, 0))
 
-    # Disegno rettangolo con bordi arrotondati
     pygame.draw.rect(screen, (245, 245, 245), box_rect, border_radius=25)
     pygame.draw.rect(screen, BLACK, box_rect, 4, border_radius=25)
 
-    # Ombra leggera sotto il testo
     shadow = font.render(text, True, (100, 100, 100))
     shadow_rect = shadow.get_rect(center=(box_rect.centerx + 2, box_rect.centery + 2))
     screen.blit(shadow, shadow_rect)
 
-    # Testo principale
     screen.blit(message, message.get_rect(center=box_rect.center))
 
     pygame.display.flip()
@@ -200,7 +194,7 @@ def game_loop():
         vel_y += GRAVITY
         player.y += int(vel_y)
 
-        # Collisioni
+        # Collisioni con piattaforme
         on_ground = False
         for platform in platforms:
             if player.colliderect(platform):
@@ -223,7 +217,7 @@ def game_loop():
             victory_screen()
             return
 
-        # Gusci
+        # Gusci cadenti
         now = pygame.time.get_ticks()
         if now - last_drop_time >= DROP_SPAWN_TIME:
             num_drops = random.randint(DROPS_PER_WAVE_MIN, DROPS_PER_WAVE_MAX)
@@ -248,7 +242,7 @@ def game_loop():
                         player.x, player.y = 50, HEIGHT - 150
                         vel_y = 0
 
-        # Disegno
+        # --- Disegno ---
         screen.blit(background, (0, 0))
         for platform in platforms:
             screen.blit(block_img, (platform.x, platform.y))
@@ -261,7 +255,7 @@ def game_loop():
 
         pygame.display.flip()
 
-# --- Loop generale ---
+# --- Ciclo generale ---
 while True:
     main_menu()
     game_loop()
