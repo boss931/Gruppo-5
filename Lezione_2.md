@@ -260,10 +260,3 @@ In questa lezione abbiamo:
 **Prossima lezione:** aggiungeremo gusci cadenti come ostacoli, introdurremo le vite e il sistema di *Game Over*.
 
 Continua alla [Lezione 3 →](#)
-
-```
-
----
-
-Vuoi che ti generi ora il **file `.md` scaricabile** (`LESSON_2.md`) con questo contenuto?
-```
