@@ -3,7 +3,7 @@
 ## Introduzione
 
 Nella **Lezione 2** abbiamo creato un mondo interattivo con **Mario**, la **gravità** e le **piattaforme**.  
-Ora il gioco comincia a diventare più interessante: in questa lezione aggiungeremo gli **ostacoli cadenti**, cioè i **gusci** lanciati dall’orso, e un **sistema di vite** che riduce la salute del giocatore ogni volta che viene colpito.
+Ora il gioco comincia a diventare più interessante: in questa lezione aggiungeremo gli **ostacoli cadenti**, cioè i **gusci** lanciati da Donkey Kong, e un **sistema di vite** che riduce la salute del giocatore ogni volta che viene colpito.
 
 Alla fine della lezione, il gioco avrà:
 - Gusci che cadono dall’alto a intervalli regolari.
