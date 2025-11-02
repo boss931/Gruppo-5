@@ -70,7 +70,7 @@ Offre strumenti per gestire grafica, suoni, input da tastiera e animazioni.
 ## Requisiti
 
 - **Python 3.12 o superiore**  
-- **Pygame** (installabile tramite pip)
+- **Pygame** (installabile tramite `pip`)
 
 ---
 
@@ -82,12 +82,18 @@ Offre strumenti per gestire grafica, suoni, input da tastiera e animazioni.
 
    ```bash
    python -m venv .venv
-````
+   ```
 
 4. Attivalo:
 
-   * **Windows:** `.\.venv\Scripts\activate`
-   * **Mac/Linux:** `source .venv/bin/activate`
+   - **Windows:**  
+     ```bash
+     .\.venv\Scripts\activate
+     ```
+   - **Mac/Linux:**  
+     ```bash
+     source .venv/bin/activate
+     ```
 
 5. Installa Pygame:
 
@@ -155,7 +161,7 @@ Esegui il file con:
 python lesson_1.py
 ```
 
-Vedrai apparire una finestra 800x600 con il tuo sfondo, pronta per diventare il mondo del gioco.
+Vedrai apparire una finestra **800x600** con il tuo sfondo, pronta per diventare il mondo del gioco.
 
 ---
 
@@ -163,13 +169,11 @@ Vedrai apparire una finestra 800x600 con il tuo sfondo, pronta per diventare il 
 
 In questa lezione hai imparato a:
 
-* Inizializzare un progetto Pygame.
-* Creare una finestra di gioco.
-* Caricare e visualizzare un’immagine di sfondo.
-* Gestire il ciclo principale del gioco.
+- Inizializzare un progetto Pygame.  
+- Creare una finestra di gioco.  
+- Caricare e visualizzare un’immagine di sfondo.  
+- Gestire il ciclo principale del gioco.
 
 Nella **Lezione 2** aggiungeremo **Mario**, la **gravità** e le **piattaforme** per iniziare a rendere il gioco interattivo.
 
-[Continua alla Lezione 2 →](LESSON_2.md)
-Vuoi che ora ti mostri direttamente la **Lezione 2 (`LESSON_2.md`)** nello stesso formato?
-```
+[Continua alla Lezione 2 →](Lezione_2.md)
