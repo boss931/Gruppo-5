@@ -34,7 +34,7 @@ Gestiremo questo flusso tramite funzioni dedicate (`main_menu()`, `game_loop()`,
 Per rendere il menu interattivo, creeremo pulsanti disegnati su schermo con testo centrato e bordi arrotondati.
 
 ### 3. Schermate di messaggio
-Le schermate di vittoria che apparirannò se Mario salva la principessa o di sconfitta nel caso in cui Mario non riesca a raggiungerla e venga colpito dai gusci, mostreranno un messaggio elegante, centrato sullo schermo, con un effetto di sfondo semitrasparente.
+Le schermate di vittoria o di sconfitta mostreranno un messaggio elegante, centrato sullo schermo, con uno sfondo semitrasparente; appariranno rispettivamente quando Mario salva la principessa o quando viene colpito dai gusci prima di raggiungerla.
 
 ---
 
