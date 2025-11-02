@@ -27,7 +27,7 @@ LIGHT_GRAY = (230, 230, 230)
 
 # --- Setup finestra ---
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Jump to Win - Mario vs Bear")
+pygame.display.set_caption("Salva la principessa - Mario vs Donkey Kong")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 72)
 font_small = pygame.font.SysFont("arial", 32, bold=True)
@@ -134,7 +134,7 @@ def main_menu():
     """Mostra la schermata iniziale"""
     while True:
         screen.blit(background, (0, 0))
-        title = font.render("Jump to Win", True, BLACK)
+        title = font.render("Salva la Principessa", True, BLACK)
         screen.blit(title, (WIDTH//2 - title.get_width()//2, 120))
 
         play_button = pygame.Rect(WIDTH//2 - 120, HEIGHT//2 - 40, 240, 80)
