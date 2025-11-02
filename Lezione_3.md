@@ -2,228 +2,245 @@
 
 ## Introduzione
 
-Nella Lezione 2 abbiamo aggiunto Mario, la gravità e le piattaforme.  
-Ora rendiamo il gioco **dinamico e impegnativo** introducendo i **gusci cadenti**, che Mario dovrà evitare per non perdere vite.  
-Implementeremo anche il **sistema delle vite** e la **logica di Game Over**.
+Nella **Lezione 2** abbiamo creato un mondo interattivo con **Mario**, la **gravità** e le **piattaforme**.  
+Ora il gioco comincia a diventare più interessante: in questa lezione aggiungeremo gli **ostacoli cadenti**, cioè i **gusci** lanciati dall’orso, e un **sistema di vite** che riduce la salute del giocatore ogni volta che viene colpito.
+
+Alla fine della lezione, il gioco avrà:
+- Gusci che cadono dall’alto a intervalli regolari.
+- Collisioni tra i gusci e Mario.
+- Un sistema di **vite rimanenti** visualizzato graficamente sullo schermo.
+- Una logica di **Game Over** quando le vite terminano.
 
 ---
 
 ## Obiettivi didattici
 
-- Creare oggetti che cadono dall’alto (gusci) con velocità casuale.  
-- Rilevare le collisioni tra Mario e i gusci.  
-- Gestire un contatore delle vite e mostrarlo sullo schermo.  
-- Implementare la schermata di Game Over.
+- Generare oggetti casuali (gusci) con velocità e posizione variabili.  
+- Gestire collisioni tra il player e i gusci.  
+- Implementare un sistema di vite con grafica dedicata.  
+- Bloccare il gioco quando tutte le vite sono esaurite.  
+- Comprendere la gestione del tempo con `pygame.time.get_ticks()`.
 
 ---
 
 ## Concetti chiave
 
-### 1. Sprite dinamici
+### 1. Generazione casuale di oggetti
+Utilizziamo il modulo `random` per determinare la posizione orizzontale e la velocità dei gusci:
+```python
+import random
+x_pos = random.randint(0, WIDTH - 40)
+speed = random.randint(DROP_SPEED_MIN, DROP_SPEED_MAX)
+````
 
-Finora abbiamo usato sprite statici (piattaforme).  
-Ora introduciamo sprite che **si muovono automaticamente** e si **rigenerano** quando escono dallo schermo.
+Questo ci permette di creare un’esperienza di gioco dinamica e imprevedibile.
 
-### 2. Gestione delle collisioni tra sprite
+### 2. Timer e gestione del tempo
 
-Con `pygame.sprite.spritecollide()` possiamo verificare se due sprite si toccano.  
-In questo caso, useremo la funzione per controllare se Mario è stato colpito da un guscio.
+Con `pygame.time.get_ticks()` otteniamo il numero di millisecondi trascorsi dall’avvio del gioco.
+Questo valore è utile per decidere **quando generare un nuovo guscio**:
 
-### 3. Sistema delle vite
+```python
+if now - last_drop_time > DROP_SPAWN_TIME:
+    # genera nuovi gusci
+```
 
-Gestiremo una variabile `vite` che decrementa a ogni collisione.  
-Quando `vite == 0`, il gioco termina mostrando “Game Over”.
+### 3. Sistema di vite
+
+Le vite del giocatore vengono memorizzate in una variabile (`vite`) e rappresentate graficamente come **icone** (ad esempio dei funghi o cuori):
+
+```python
+vite = MAX_VITE
+```
+
+Ogni volta che Mario viene colpito da un guscio, `vite` diminuisce di 1.
+Quando raggiunge 0, appare la schermata di **Game Over**.
 
 ---
 
-## Preparazione
+## Risorse necessarie
 
-Nella cartella del progetto (`salva_la_principessa`), assicurati di avere:
+Assicurati di avere nella tua cartella del progetto:
 
-- `sfondo.png` — lo sfondo del livello.  
-- `mario.png` — il personaggio.  
-- `guscio.png` — l’immagine del guscio.
-
-Crea un file `lesson_3.py`.
+* `guscio.png` — l’immagine del guscio cadente
+* `fungo.png` (o `cuore.png`) — icona per le vite
+* Gli altri file già presenti: `sfondo.png`, `mario.png`, `blocco.png`
 
 ---
 
-## Codice completo e commentato
+## Codice completo della Lezione 3
+
+Crea un nuovo file chiamato **lesson_3.py**
+Copia e incolla il codice seguente:
 
 ```python
 import pygame
-import random
 import sys
+import random
 
-# Inizializza Pygame
 pygame.init()
 
-# Costanti principali
+# --- Costanti ---
 WIDTH, HEIGHT = 800, 600
 FPS = 60
-GRAVITY = 0.5
-MOVE_SPEED = 5
-JUMP_POWER = 12
-MAX_FALL_SPEED = 20
-NUM_GUSCI = 5
+GRAVITY = 0.8
+JUMP_POWER = 20
+SPEED = 5
+DROP_SPEED_MIN = 3
+DROP_SPEED_MAX = 6
+DROP_SPAWN_TIME = 1200  # tempo tra le ondate di gusci (ms)
+MAX_VITE = 3
 
-# Colori
+# --- Colori ---
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
-COLOR_PLATFORM = (120, 80, 40)
+BLACK = (0, 0, 0)
 
-# Finestra
+# --- Setup finestra ---
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Salva la Principessa - Lezione 3")
 clock = pygame.time.Clock()
+font = pygame.font.SysFont("arial", 32, bold=True)
 
-# Font per testo
-font = pygame.font.SysFont("arial", 28, bold=True)
-
-# Carica immagini
-background = pygame.image.load("sfondo.png").convert()
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+# --- Caricamento immagini ---
 mario_img = pygame.image.load("mario.png").convert_alpha()
+background = pygame.image.load("sfondo.png").convert()
+block_img = pygame.image.load("blocco.png").convert_alpha()
 guscio_img = pygame.image.load("guscio.png").convert_alpha()
+cuore_img = pygame.image.load("fungo.png").convert_alpha()
 
-# Classi
-class Platform(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height):
-        super().__init__()
-        self.image = pygame.Surface((width, height))
-        self.image.fill(COLOR_PLATFORM)
-        self.rect = self.image.get_rect(topleft=(x, y))
+# --- Ridimensionamento immagini ---
+background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+mario_img = pygame.transform.scale(mario_img, (60, 60))
+guscio_img = pygame.transform.scale(guscio_img, (40, 40))
+block_img = pygame.transform.scale(block_img, (150, 40))
+cuore_img = pygame.transform.scale(cuore_img, (32, 32))
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y):
-        super().__init__()
-        self.image = pygame.transform.scale(mario_img, (60, 80))
-        self.rect = self.image.get_rect(topleft=(x, y))
-        self.pos_y = float(self.rect.y)
-        self.vel_y = 0
-        self.on_ground = False
+# --- Giocatore ---
+player = pygame.Rect(50, HEIGHT - 150, 60, 60)
+vel_y = 0
+on_ground = False
+vite = MAX_VITE
 
-    def handle_input(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            self.rect.x -= MOVE_SPEED
-        if keys[pygame.K_RIGHT]:
-            self.rect.x += MOVE_SPEED
-        if keys[pygame.K_SPACE] and self.on_ground:
-            self.vel_y = -JUMP_POWER
-            self.on_ground = False
+# --- Piattaforme ---
+platforms = [
+    pygame.Rect(100, 480, 150, 40),
+    pygame.Rect(300, 370, 150, 40),
+    pygame.Rect(500, 260, 150, 40),
+    pygame.Rect(650, 150, 150, 40),
+]
 
-    def apply_gravity(self):
-        self.vel_y += GRAVITY
-        if self.vel_y > MAX_FALL_SPEED:
-            self.vel_y = MAX_FALL_SPEED
-        self.pos_y += self.vel_y
-        self.rect.y = int(self.pos_y)
+# --- Gusci cadenti ---
+drops = []
+last_drop_time = pygame.time.get_ticks()
 
-    def check_vertical_collisions(self, platforms):
-        self.on_ground = False
-        for platform in platforms:
-            if self.rect.colliderect(platform.rect):
-                if self.vel_y > 0 and self.rect.bottom - int(self.vel_y) <= platform.rect.top:
-                    self.rect.bottom = platform.rect.top
-                    self.pos_y = float(self.rect.y)
-                    self.vel_y = 0
-                    self.on_ground = True
-                elif self.vel_y < 0 and self.rect.top - int(self.vel_y) >= platform.rect.bottom:
-                    self.rect.top = platform.rect.bottom
-                    self.pos_y = float(self.rect.y)
-                    self.vel_y = 0
+# --- Funzione per disegnare le vite ---
+def draw_vite(vite):
+    x_offset = 20
+    y_offset = 20
+    for i in range(MAX_VITE):
+        heart_x = x_offset + i * 40
+        if i < vite:
+            screen.blit(cuore_img, (heart_x, y_offset))
+        else:
+            cuore_grigio = cuore_img.copy()
+            cuore_grigio.fill((120, 120, 120, 255), None, pygame.BLEND_RGBA_MULT)
+            screen.blit(cuore_grigio, (heart_x, y_offset))
 
-    def update(self, platforms):
-        self.handle_input()
-        self.apply_gravity()
-        self.check_vertical_collisions(platforms)
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
+# --- Funzione Game Over ---
+def game_over_screen():
+    screen.fill(BLACK)
+    message = font.render("Hai perso! Premi R per riprovare.", True, WHITE)
+    screen.blit(message, (WIDTH//2 - message.get_width()//2, HEIGHT//2))
+    pygame.display.flip()
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                waiting = False
 
-class Guscio(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.image = pygame.transform.scale(guscio_img, (50, 50))
-        self.rect = self.image.get_rect()
-        self.reset()
-
-    def reset(self):
-        self.rect.x = random.randint(0, WIDTH - self.rect.width)
-        self.rect.y = random.randint(-400, -50)
-        self.speed = random.uniform(3, 6)
-
-    def update(self):
-        self.rect.y += self.speed
-        if self.rect.top > HEIGHT:
-            self.reset()
-
-# Gruppi
-all_sprites = pygame.sprite.Group()
-platforms = pygame.sprite.Group()
-gusci = pygame.sprite.Group()
-
-# Piattaforme
-ground = Platform(0, HEIGHT - 50, WIDTH, 50)
-platform1 = Platform(150, 430, 200, 20)
-platform2 = Platform(420, 320, 180, 20)
-platform3 = Platform(620, 210, 150, 20)
-platforms.add(ground, platform1, platform2, platform3)
-all_sprites.add(ground, platform1, platform2, platform3)
-
-# Player
-player = Player(50, HEIGHT - 150)
-all_sprites.add(player)
-
-# Gusci
-for _ in range(NUM_GUSCI):
-    guscio = Guscio()
-    gusci.add(guscio)
-    all_sprites.add(guscio)
-
-# Vite
-vite = 3
-game_over = False
-
-# Loop principale
+# --- Ciclo principale ---
 running = True
 while running:
-    clock.tick(FPS)
-
+    dt = clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    if not game_over:
-        player.update(platforms)
-        gusci.update()
+    keys = pygame.key.get_pressed()
 
-        # Collisione con gusci
-        if pygame.sprite.spritecollide(player, gusci, False):
-            vite -= 1
-            if vite <= 0:
-                game_over = True
-            else:
-                player.rect.x, player.rect.y = 50, HEIGHT - 150
-                player.pos_y = float(player.rect.y)
+    # Movimento orizzontale
+    if keys[pygame.K_LEFT]:
+        player.x -= SPEED
+        if player.left < 0:
+            player.left = 0
+    if keys[pygame.K_RIGHT]:
+        player.x += SPEED
+        if player.right > WIDTH:
+            player.right = WIDTH
+
+    # Salto
+    if keys[pygame.K_SPACE] and on_ground:
+        vel_y = -JUMP_POWER
+        on_ground = False
+
+    # Gravità
+    vel_y += GRAVITY
+    player.y += int(vel_y)
+
+    # Collisioni piattaforme
+    on_ground = False
+    for platform in platforms:
+        if player.colliderect(platform):
+            if vel_y > 0 and player.bottom - vel_y <= platform.top:
+                player.bottom = platform.top
+                vel_y = 0
+                on_ground = True
+            elif vel_y < 0 and player.top - vel_y >= platform.bottom:
+                player.top = platform.bottom
+                vel_y = 0
+
+    # Pavimento
+    if player.bottom >= HEIGHT:
+        player.bottom = HEIGHT
+        vel_y = 0
+        on_ground = True
+
+    # Generazione gusci
+    now = pygame.time.get_ticks()
+    if now - last_drop_time >= DROP_SPAWN_TIME:
+        x_pos = random.randint(0, WIDTH - 40)
+        speed = random.randint(DROP_SPEED_MIN, DROP_SPEED_MAX)
+        drops.append({"x": x_pos, "y": -40, "speed": speed})
+        last_drop_time = now
+
+    # Aggiornamento gusci
+    for drop in drops[:]:
+        drop["y"] += drop["speed"]
+        if drop["y"] > HEIGHT:
+            drops.remove(drop)
+        else:
+            drop_rect = pygame.Rect(drop["x"], drop["y"], 40, 40)
+            if drop_rect.colliderect(player):
+                vite -= 1
+                drops.remove(drop)
+                if vite <= 0:
+                    game_over_screen()
+                    vite = MAX_VITE
+                    drops.clear()
+                    player.x, player.y = 50, HEIGHT - 150
 
     # Disegno
     screen.blit(background, (0, 0))
-    all_sprites.draw(screen)
-
-    # Mostra vite
-    vite_text = font.render(f"Vite: {vite}", True, WHITE)
-    screen.blit(vite_text, (20, 20))
-
-    # Game over
-    if game_over:
-        over_text = font.render("GAME OVER - Premi ESC per uscire", True, RED)
-        screen.blit(over_text, (WIDTH // 2 - 200, HEIGHT // 2))
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_ESCAPE]:
-            running = False
+    for platform in platforms:
+        screen.blit(block_img, (platform.x, platform.y))
+    screen.blit(mario_img, (player.x, player.y))
+    for drop in drops:
+        screen.blit(guscio_img, (drop["x"], drop["y"]))
+    draw_vite(vite)
 
     pygame.display.flip()
 
@@ -233,28 +250,34 @@ sys.exit()
 
 ---
 
-## Spiegazioni e approfondimenti
+## Spiegazione del codice
 
-### Gestione dei gusci
-Ogni guscio è un `Sprite` che cade costantemente verso il basso con una velocità casuale.  
-Quando esce dallo schermo, viene riposizionato sopra la finestra (`reset()`), creando un ciclo infinito di ostacoli.
+### Sezione 1 – Gusci cadenti
 
-### Collisioni
-Usiamo `pygame.sprite.spritecollide(player, gusci, False)` per controllare se Mario viene colpito.  
-Ogni collisione riduce il numero di vite e riposiziona il giocatore.
+I gusci vengono generati periodicamente e cadono con velocità casuale.
+Se toccano il giocatore, riducono il numero di vite.
 
-### Game Over
-Quando `vite` raggiunge 0, `game_over` diventa `True` e il gioco mostra un messaggio statico fino a che il giocatore preme **ESC**.
+### Sezione 2 – Collisioni
+
+Utilizziamo `pygame.Rect.colliderect()` per determinare se Mario è stato colpito.
+
+### Sezione 3 – Game Over
+
+Quando le vite scendono a 0, appare una schermata di sconfitta che chiede di premere **R** per riprovare.
+
+### Sezione 4 – Vite grafiche
+
+Ogni vita viene mostrata come un’icona (`cuore.png` o `fungo.png`) in alto a sinistra.
+Le vite esaurite appaiono in grigio.
 
 ---
 
-## Esercizi proposti
+## Esercizi consigliati
 
-1. **Aggiungi una pausa di invincibilità** dopo una collisione (es. 2 secondi).  
-2. **Aumenta la difficoltà** nel tempo: più gusci, o più veloci.  
-3. **Aggiungi effetti sonori**: un suono per le collisioni e uno per il game over.  
-4. **Visualizza un’icona di cuore** accanto alle vite.  
-5. **Crea un sistema di punteggio** basato sul tempo sopravvissuto.
+1. **Aumenta la difficoltà:** riduci `DROP_SPAWN_TIME` o aumenta `DROP_SPEED_MAX`.
+2. **Effetti sonori:** aggiungi un suono quando un guscio cade o colpisce Mario.
+3. **Più gusci:** genera più gusci per ondata con una lista o ciclo.
+4. **Effetto esplosione:** mostra una breve animazione quando Mario viene colpito.
 
 ---
 
@@ -262,10 +285,15 @@ Quando `vite` raggiunge 0, `game_over` diventa `True` e il gioco mostra un messa
 
 In questa lezione abbiamo:
 
-- Creato gli ostacoli (gusci) che cadono dall’alto.  
-- Gestito collisioni e decremento delle vite.  
-- Implementato una schermata di Game Over.  
+* Implementato gusci cadenti con generazione casuale.
+* Gestito le collisioni con Mario.
+* Creato un sistema di vite visivo e funzionale.
+* Aggiunto una schermata di Game Over.
 
-Nella **Lezione 4**, aggiungeremo **il menu iniziale**, **le schermate di vittoria** e **di sconfitta**, rendendo il gioco completo e presentabile.
+Nella **Lezione 4** concluderemo il gioco aggiungendo:
+
+* La **Principessa Peach** e l’**orso cattivo**,
+* La **schermata di vittoria**,
+* E un **menu iniziale** interattivo.
 
 [Continua alla Lezione 4 →](Lezione_4.md)
