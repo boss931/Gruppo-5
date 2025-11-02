@@ -1,213 +1,180 @@
-# Lezione 2: Aggiungere Mario, la gravità e le piattaforme (approfondita)
+# Lezione 2: Aggiungere Mario, la Gravità e le Piattaforme (Versione Approfondita)
 
 ## Introduzione
 
-Nella Lezione 1 abbiamo creato la finestra di gioco e visualizzato lo sfondo.  
-In questa lezione trasformiamo lo schermo in un livello interattivo: aggiungeremo **Mario** come sprite giocabile, implementeremo la **gravità** e il **salto**, creeremo **piattaforme** e tratteremo in dettaglio la gestione delle **collisioni**.
+Benvenuto alla **Lezione 2** del corso *Salva la Principessa*!  
+Nella lezione precedente hai imparato a creare una finestra con Pygame e impostare uno sfondo.  
+Ora daremo vita al gioco aggiungendo:
 
-Questa lezione spiega non solo il "come" ma anche il "perché" delle scelte tecniche: utile per capire i problemi comuni (es. *tunneling* delle collisioni, *overshoot* del salto) e come risolverli.
+- Il personaggio di **Mario**, controllabile con la tastiera.
+- Un sistema di **gravità** realistico.
+- La possibilità di **saltare e camminare**.
+- Alcune **piattaforme** su cui Mario può atterrare.
 
----
-
-## Obiettivi didattici
-
-- Comprendere il sistema di coordinate e l’uso di `Rect` in Pygame.  
-- Implementare un player con movimento orizzontale e salto.  
-- Applicare una gravità semplice ma stabile.  
-- Creare piattaforme statiche su cui il player può atterrare.  
-- Gestire collisioni verticali correttamente e risolvere problemi comuni.  
-- Fornire esercizi e varianti per consolidare l’apprendimento.
+In questa lezione iniziamo a costruire le basi della fisica del gioco, passo essenziale per rendere il movimento realistico e stabile.
 
 ---
 
-## Concetti chiave
+## Obiettivi della Lezione
 
-### Coordinate e `Rect`
-
-- In Pygame l’origine `(0,0)` è in alto a sinistra.  
-- Le coordinate aumentano verso destra (asse X) e verso il basso (asse Y).  
-- `pygame.Rect` è un rettangolo con proprietà utili: `x`, `y`, `width`, `height`, `top`, `bottom`, `left`, `right`, `center`, ecc.  
-  Serve per gestire collisioni e posizionamento degli oggetti.
-
-### Gravità e velocità
-
-- La gravità viene applicata sommando ogni frame un valore `g` alla velocità verticale `vel_y`.  
-- La posizione verticale `y` viene aggiornata in base a `vel_y`.  
-- È buona pratica mantenere `vel_y` come *float* per movimenti più fluidi e convertire in intero solo quando necessario.
-
-### Collisioni
-
-- Si controllano le collisioni tra il `Rect` del player e quelli delle piattaforme.  
-- È importante distinguere collisioni verticali e orizzontali.  
-- Problemi comuni:
-  - **Tunneling:** il player attraversa una piattaforma se la velocità è troppo alta.  
-  - **Overshoot:** il player “rimbalza” sopra la piattaforma.  
+- Comprendere il concetto di coordinate e rettangoli (`Rect`) in Pygame.  
+- Applicare una gravità costante e gestire i salti.  
+- Implementare piattaforme solide e collisioni corrette.  
+- Mantenere lo stesso stile visivo e proporzioni del gioco completo.
 
 ---
 
-## Preparazione
+## Concetti Teorici Fondamentali
 
-Nella cartella del progetto (`salva_la_principessa`) assicurati di avere:
-- `sfondo.png` — sfondo del livello  
-- `mario.png` — immagine del personaggio  
+### 1. Coordinate in Pygame
 
-Crea un file chiamato `lesson_2.py`.
+In Pygame, il punto **(0,0)** si trova in **alto a sinistra** dello schermo:  
+- l’asse **x** cresce verso destra,  
+- l’asse **y** cresce verso il basso.  
+
+Ogni immagine o oggetto è rappresentato da un **rettangolo (Rect)** che definisce posizione e dimensioni.  
+I `Rect` sono anche usati per rilevare **collisioni**, grazie a metodi come `colliderect()`.
+
+### 2. Gravità e Velocità Verticale
+
+Per simulare la gravità, usiamo una variabile `vel_y` che rappresenta la velocità verticale del giocatore.  
+A ogni frame aggiungiamo una costante `GRAVITY` a `vel_y`, poi aggiorniamo la posizione `y` di Mario:
+
+```python
+vel_y += GRAVITY
+player.y += int(vel_y)
+```
+
+Quando Mario salta, impostiamo `vel_y` a un valore negativo (es. `-JUMP_POWER`), e la gravità lo riporterà giù gradualmente.
+
+### 3. Collisioni con Piattaforme
+
+Per evitare che Mario attraversi il terreno o le piattaforme, verifichiamo se il suo `Rect` collide con quello delle piattaforme.  
+In caso di collisione, correggiamo la posizione e azzeriamo la velocità verticale, simulando l’impatto con il suolo.
 
 ---
 
-## Codice commentato e spiegato
+## Preparazione del Progetto
 
-Il codice seguente è completo e accompagnato da commenti esplicativi.  
-Copialo in `lesson_2.py`.
+Assicurati di avere nella tua cartella di progetto `salva_la_principessa` i seguenti file:
+
+- `sfondo.png` → lo sfondo del livello  
+- `mario.png` → il personaggio principale  
+- `blocco.png` → immagine per le piattaforme  
+
+Ora crea un nuovo file Python chiamato **lesson_2.py**.
+
+---
+
+## Codice Completo della Lezione 2
+
+Copia il codice seguente in `lesson_2.py`:
 
 ```python
 import pygame
 import sys
 
-# Inizializza Pygame
+# --- Inizializzazione ---
 pygame.init()
 
-# Costanti principali
+# --- Costanti di Gioco ---
 WIDTH, HEIGHT = 800, 600
 FPS = 60
 
 # Parametri fisici
-GRAVITY = 0.5        # accelerazione verso il basso (pixel/frame²)
-JUMP_POWER = 12      # velocità iniziale del salto (pixel/frame)
-MOVE_SPEED = 5       # velocità orizzontale (pixel/frame)
-MAX_FALL_SPEED = 20  # limite di velocità in caduta per evitare tunneling
+GRAVITY = 0.8
+JUMP_POWER = 20
+SPEED = 5
 
-# Colori (per debug)
-COLOR_PLATFORM = (120, 80, 40)
+# --- Colori ---
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+BROWN = (150, 90, 40)
 
-# Setup finestra
+# --- Setup Finestra ---
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Salva la Principessa - Lezione 2")
 clock = pygame.time.Clock()
 
-# Carica lo sfondo e scala
+# --- Caricamento Immagini ---
 background = pygame.image.load("sfondo.png").convert()
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
-````
 
----
+mario_img = pygame.image.load("mario.png").convert_alpha()
+mario_img = pygame.transform.scale(mario_img, (60, 60))
 
-### Definizione della classe `Platform`
+block_img = pygame.image.load("blocco.png").convert_alpha()
+block_img = pygame.transform.scale(block_img, (150, 40))
 
-```python
-class Platform(pygame.sprite.Sprite):
-    """
-    Piattaforma semplice: disegnabile, con rect per collisioni.
-    In un progetto reale potresti caricare un'immagine invece di disegnare una surface.
-    """
-    def __init__(self, x, y, width, height):
-        super().__init__()
-        self.image = pygame.Surface((width, height))
-        self.image.fill(COLOR_PLATFORM)
-        self.rect = self.image.get_rect(topleft=(x, y))
-```
+# --- Definizione Oggetti di Gioco ---
+player = pygame.Rect(50, HEIGHT - 150, 60, 60)
+vel_y = 0
+on_ground = False
 
----
+# --- Creazione Piattaforme ---
+platforms = [
+    pygame.Rect(100, 480, 150, 40),
+    pygame.Rect(300, 370, 150, 40),
+    pygame.Rect(500, 260, 150, 40),
+    pygame.Rect(650, 150, 150, 40),
+]
 
-### Definizione della classe `Player`
-
-```python
-class Player(pygame.sprite.Sprite):
-    """
-    Player basato su immagine con controllo semplice.
-    Gestisce input, gravità, salto e collisioni verticali.
-    """
-    def __init__(self, x, y):
-        super().__init__()
-        self.image = pygame.image.load("mario.png").convert_alpha()
-        self.image = pygame.transform.scale(self.image, (60, 80))
-        self.rect = self.image.get_rect(topleft=(x, y))
-
-        self.pos_y = float(self.rect.y)
-        self.vel_y = 0.0
-        self.on_ground = False
-
-    def handle_input(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            self.rect.x -= MOVE_SPEED
-        if keys[pygame.K_RIGHT]:
-            self.rect.x += MOVE_SPEED
-        if keys[pygame.K_SPACE] and self.on_ground:
-            self.vel_y = -JUMP_POWER
-            self.on_ground = False
-
-    def apply_gravity(self):
-        self.vel_y += GRAVITY
-        if self.vel_y > MAX_FALL_SPEED:
-            self.vel_y = MAX_FALL_SPEED
-        self.pos_y += self.vel_y
-        self.rect.y = int(self.pos_y)
-
-    def check_vertical_collisions(self, platforms):
-        self.on_ground = False
-        for platform in platforms:
-            if self.rect.colliderect(platform.rect):
-                if self.vel_y > 0 and self.rect.bottom - int(self.vel_y) <= platform.rect.top:
-                    self.rect.bottom = platform.rect.top
-                    self.pos_y = float(self.rect.y)
-                    self.vel_y = 0.0
-                    self.on_ground = True
-                elif self.vel_y < 0 and self.rect.top - int(self.vel_y) >= platform.rect.bottom:
-                    self.rect.top = platform.rect.bottom
-                    self.pos_y = float(self.rect.y)
-                    self.vel_y = 0.0
-
-    def update(self, platforms):
-        self.handle_input()
-        self.apply_gravity()
-        self.check_vertical_collisions(platforms)
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
-```
-
----
-
-### Creazione oggetti e setup del livello
-
-```python
-# Gruppi di sprite
-all_sprites = pygame.sprite.Group()
-platforms = pygame.sprite.Group()
-
-# Piattaforme: terreno e alcune piattaforme fluttuanti
-ground = Platform(0, HEIGHT - 50, WIDTH, 50)
-platform1 = Platform(150, 430, 200, 20)
-platform2 = Platform(420, 320, 180, 20)
-platform3 = Platform(620, 210, 150, 20)
-
-platforms.add(ground, platform1, platform2, platform3)
-all_sprites.add(ground, platform1, platform2, platform3)
-
-# Player iniziale
-player = Player(50, HEIGHT - 150)
-all_sprites.add(player)
-```
-
----
-
-### Ciclo principale (game loop)
-
-```python
+# --- Ciclo Principale di Gioco ---
 running = True
 while running:
     dt = clock.tick(FPS)
 
+    # Gestione Eventi
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    player.update(platforms)
+    # Input da Tastiera
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        player.x -= SPEED
+    if keys[pygame.K_RIGHT]:
+        player.x += SPEED
+    if keys[pygame.K_SPACE] and on_ground:
+        vel_y = -JUMP_POWER
+        on_ground = False
 
+    # Gravità
+    vel_y += GRAVITY
+    player.y += int(vel_y)
+
+    # Collisioni con le Piattaforme
+    on_ground = False
+    for platform in platforms:
+        if player.colliderect(platform):
+            # Se cade sulla piattaforma
+            if vel_y > 0 and player.bottom - vel_y <= platform.top:
+                player.bottom = platform.top
+                vel_y = 0
+                on_ground = True
+            # Se colpisce dal basso
+            elif vel_y < 0 and player.top - vel_y >= platform.bottom:
+                player.top = platform.bottom
+                vel_y = 0
+
+    # Pavimento (bordo inferiore)
+    if player.bottom >= HEIGHT:
+        player.bottom = HEIGHT
+        vel_y = 0
+        on_ground = True
+
+    # Limiti Laterali
+    if player.left < 0:
+        player.left = 0
+    if player.right > WIDTH:
+        player.right = WIDTH
+
+    # --- Disegno su Schermo ---
     screen.blit(background, (0, 0))
-    all_sprites.draw(screen)
+    for platform in platforms:
+        screen.blit(block_img, (platform.x, platform.y))
+    screen.blit(mario_img, (player.x, player.y))
+
     pygame.display.flip()
 
 pygame.quit()
@@ -216,47 +183,46 @@ sys.exit()
 
 ---
 
-## Spiegazioni approfondite e note pratiche
+## Spiegazione del Codice
 
-### Perché usiamo `pos_y` come float?
+### 1. Gravità e Salto
+Il parametro `GRAVITY` definisce l’accelerazione verso il basso.  
+Ogni frame, `vel_y` aumenta e viene sommato alla posizione `y` del giocatore.
 
-Serve per accumulare frazioni di movimento che altrimenti andrebbero perse con numeri interi, garantendo movimenti fluidi.
+Il salto avviene impostando `vel_y` a un valore negativo. Quando `on_ground` è `True`, Mario può saltare; in aria, no.
 
-### Perché limitiamo la velocità di caduta?
+### 2. Collisioni Verticali
+Controlliamo se Mario entra in contatto con una piattaforma tramite `player.colliderect(platform)`.
+- Se la collisione avviene **dall’alto**, fermiamo la caduta e posizioniamo Mario esattamente sopra la piattaforma.  
+- Se la collisione avviene **dal basso**, blocchiamo la salita e annulliamo la velocità.
 
-Per evitare il “tunneling”: quando il personaggio attraversa una piattaforma tra due frame a causa di velocità troppo elevate.
+### 3. Controllo dei Bordi
+Impediamo al giocatore di uscire dallo schermo, controllando `player.left` e `player.right`.
 
-### Impatto dall’alto
-
-Il controllo `self.rect.bottom - int(self.vel_y) <= platform.rect.top` serve per capire se il player stava sopra la piattaforma nel frame precedente.
-
-### Problemi comuni
-
-* **Incollaggio laterale:** separare le collisioni orizzontali e verticali.
-* **Rimbalzi indesiderati:** verificare la direzione del movimento prima di correggere la posizione.
-* **Movimento non fluido:** assicurarsi che il framerate sia stabile (`clock.tick(FPS)`).
+### 4. Frame Rate
+`clock.tick(FPS)` mantiene la velocità di aggiornamento costante.  
+Con 60 FPS, il movimento risulterà fluido e naturale.
 
 ---
 
-## Esercizi consigliati
+## Challenge 
 
-1. **Separare collisioni orizzontali e verticali.**
-2. **Aggiungere animazioni di camminata.**
-3. **Creare un file di livello** con la disposizione delle piattaforme.
-4. **Implementare un doppio salto o un dash.**
-5. **Attivare il debug visivo** disegnando i `Rect` sullo schermo.
+1. **Crea più piattaforme:** aggiungi nuove righe alla lista `platforms`.  
+2. **Cambia la gravità:** prova valori tra `0.5` e `1.2` per vedere come cambia la sensazione del salto.  
+3. **Aggiungi suono al salto:** usa `pygame.mixer.Sound("salto.wav").play()`.  
+4. **Disegna contorni di debug:** usa `pygame.draw.rect(screen, (255,0,0), player, 2)` per vedere i `Rect`.  
 
 ---
 
 ## Riepilogo
 
-In questa lezione abbiamo:
+In questa lezione abbiamo imparato a:
 
-* Implementato Mario con movimento e salto.
-* Aggiunto la gravità e la gestione delle collisioni.
-* Creato piattaforme statiche.
-* Analizzato problemi comuni e relative soluzioni.
+- Gestire movimento e salto del personaggio.  
+- Applicare la gravità.  
+- Implementare piattaforme e collisioni verticali.  
+- Mantenere il controllo stabile dei bordi dello schermo.
 
-**Prossima lezione:** aggiungeremo gusci cadenti come ostacoli, introdurremo le vite e il sistema di *Game Over*.
+Nella **Lezione 3**, aggiungeremo i **gusci cadenti**, il **sistema di vite**, e la logica di **game over**.
 
-Continua alla [Lezione 3 →](#)
+[Continua alla Lezione 3 →](Lezione_3.md)
