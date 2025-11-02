@@ -292,7 +292,7 @@ In questa lezione abbiamo:
 
 Nella **Lezione 4** concluderemo il gioco aggiungendo:
 
-* La **Principessa Peach** e l’**orso cattivo**,
+* La **Principessa Peach** e **Donkey Kong**,
 * La **schermata di vittoria**,
 * E un **menu iniziale** interattivo.
 
