@@ -322,4 +322,3 @@ Da qui puoi continuare a migliorarlo aggiungendo:
 * Punteggi o livelli di difficoltà.
 
 **Complimenti! Hai creato il tuo primo videogioco completo in Pygame.**
-```
