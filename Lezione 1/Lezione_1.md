@@ -1,5 +1,8 @@
 # Lezione 1: Iniziare lo sviluppo del gioco con Pygame
 
+# Immagini
+![immagine schermata](../immagini/Schermata_principale1.png)
+
 ## Introduzione
 
 Benvenuto nella serie di lezioni **“Salva la Principessa”**!  
