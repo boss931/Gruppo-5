@@ -118,6 +118,7 @@ if drop_rect.colliderect(player):
             if vite <= 0:
                 game_over_screen()
                 return
+````
 
 ---
 
