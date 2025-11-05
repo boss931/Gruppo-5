@@ -300,4 +300,4 @@ Nella **Lezione 4** concluderemo il gioco aggiungendo:
 * La **schermata di vittoria**,
 * E un **menu iniziale** interattivo.
 
-[Continua alla Lezione 4 →](Lezione_4.md)
+[Continua alla Lezione 4 →](../Lezione_4/Lezione_4.md)
