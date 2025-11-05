@@ -48,9 +48,7 @@ platforms = [
 
 # --- Funzione per disegnare piattaforme ---
 def draw_platforms():
-  #TODO: ciclo for per disegnare le piattaforme con screen.blit
-    for platform in platforms:
-        screen.blit(block_img, (platform.x, platform.y))
+  #TODO: ciclo for per disegnare tutte le piattaforme con screen.blit
 
 # --- Ciclo principale ---
 running = True
@@ -68,6 +66,7 @@ while running:
         player.x -= SPEED
         if player.left < 0:
             player.left = 0
+    #TODO: gestisci il movimento del personaggio con i tasti freccia destra e spazio
     if keys[pygame.K_RIGHT]:
         player.x += SPEED
         if player.right > WIDTH:
