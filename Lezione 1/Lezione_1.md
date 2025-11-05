@@ -179,4 +179,4 @@ In questa lezione hai imparato a:
  
 Nella **Lezione 2** aggiungeremo **Mario**, la **gravità** e le **piattaforme** per iniziare a rendere il gioco interattivo.
  
-[Continua alla Lezione 2 →](Lezione_2.md)
+[Continua alla Lezione 2 →](../Lezione_2.md)
