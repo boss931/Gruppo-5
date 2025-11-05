@@ -5,8 +5,8 @@ import sys
 pygame.init()
 
 # Costanti
-WIDTH, HEIGHT = 800, 600
-GAME_TITLE = "Salva la Principessa - Lezione 1"
+#TODO: disegna lo schermo con larghezza = 800 e altezza = 600
+#TODO: disegna il titolo del gioco
 
 # Creazione finestra
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -21,11 +21,7 @@ clock = pygame.time.Clock()
 
 # Ciclo principale
 running = True
-# TODO: ciclo while per far si che se il giocatore clicca X il gioco termini 
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+# TODO: ciclo while per far si che se il giocatore clicca X il gioco termini
 
     # Disegna lo sfondo
     screen.blit(background, (0, 0))
