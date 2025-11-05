@@ -5,7 +5,7 @@ import sys
 pygame.init()
 
 # Costanti
-#TODO: disegna lo schermo con larghezza = 800 e altezza = 600
+#TODO: disegna lo schermo con larghezza(WIDTH) = 800 e altezza(HEIGHT) = 600
 #TODO: disegna il titolo del gioco con GAME_TITLE = ...
 
 # Creazione finestra
