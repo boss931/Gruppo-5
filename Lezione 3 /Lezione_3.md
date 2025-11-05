@@ -1,5 +1,8 @@
 # Lezione 3: Aggiungere i gusci cadenti e il sistema di vite
 
+# Immagini
+![schermata di gioco](schermata base.png)
+
 ## Introduzione
 
 Nella **Lezione 2** abbiamo creato un mondo interattivo con **Mario**, la **gravità** e le **piattaforme**.  
