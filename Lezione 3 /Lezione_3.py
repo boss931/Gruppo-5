@@ -71,20 +71,7 @@ def draw_vite(vite):
             cuore_grigio.fill((120, 120, 120, 255), None, pygame.BLEND_RGBA_MULT)
             screen.blit(cuore_grigio, (heart_x, y_offset))
 
-# --- Funzione Game Over ---
-def game_over_screen():
-    screen.fill(BLACK)
-    message = font.render("Hai perso! Premi R per riprovare.", True, WHITE)
-    screen.blit(message, (WIDTH//2 - message.get_width()//2, HEIGHT//2))
-    pygame.display.flip()
-    waiting = True
-    while waiting:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                waiting = False
+
 
 # --- Ciclo principale ---
 running = True
