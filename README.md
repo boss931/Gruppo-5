@@ -117,3 +117,4 @@ Puoi usare questo progetto:
 Buon divertimento con il tuo gioco!
 **E ricorda: salva la principessa!**
 
+[Inizia con la Lezione 1 →](../Lezione_1/Lezione_1.md)
