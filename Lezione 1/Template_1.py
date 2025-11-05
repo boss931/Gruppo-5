@@ -21,7 +21,7 @@ clock = pygame.time.Clock()
 
 # Ciclo principale
 running = True
-# TODO: ciclo while per far si che se il giocatore clicca X il gioco termini
+# TODO: ciclo while per far si che se il giocatore vuole chiudere la finestra il gioco termini
 
     # Disegna lo sfondo
     screen.blit(background, (0, 0))
