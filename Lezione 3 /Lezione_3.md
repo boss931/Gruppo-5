@@ -1,7 +1,7 @@
 # Lezione 3: Aggiungere i gusci cadenti e il sistema di vite
 
 # Immagini
-![schermata di gioco](Immagini/schermata_base_lezione1.png)
+![schermata di gioco](immagini/schermata_base_lezione1.png)
 
 ## Introduzione
 
