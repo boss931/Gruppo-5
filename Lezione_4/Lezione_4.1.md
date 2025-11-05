@@ -81,7 +81,7 @@ Il pulsante viene disegnato usando la funzione
 ```python
 draw_button()
 ````
-, che gestisce il colore, il bordo e il testo centrato.
+che gestisce il colore, il bordo e il testo centrato.
 
 -Attesa dell’input
 Il ciclo controlla continuamente gli eventi generati da 
@@ -95,7 +95,10 @@ Se l’utente chiude la finestra, il programma termina
 (sys.exit()).
 ````
 
-Se l’utente clicca sul pulsante, si verifica una collisione tra il punto del click e il rettangolo play_button (grazie a collidepoint()).
+Se l’utente clicca sul pulsante, si verifica una collisione tra il punto del click e il rettangolo play_button grazie a 
+```python
+collidepoint())
+````
 
 Se l’utente preme Invio, il gioco parte ugualmente.
 
