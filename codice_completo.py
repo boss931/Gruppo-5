@@ -34,7 +34,7 @@ font_small = pygame.font.SysFont("arial", 32, bold=True)
 # --- Caricamento immagini ---
 mario_img = pygame.image.load("mario.png").convert_alpha()
 peach_img = pygame.image.load("peach.png").convert_alpha()
-orso_img = pygame.image.load("orso.png").convert_alpha()
+donkeykong_img = pygame.image.load("donkeykong.png").convert_alpha()
 background = pygame.image.load("sfondo.png").convert()
 block_img = pygame.image.load("blocco.png").convert_alpha()
 guscio_img = pygame.image.load("guscio.png").convert_alpha()
@@ -44,7 +44,7 @@ cuore_img = pygame.image.load("fungo.png").convert_alpha()
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 mario_img = pygame.transform.scale(mario_img, (60, 60))
 peach_img = pygame.transform.scale(peach_img, (70, 100))
-orso_img = pygame.transform.scale(orso_img, (100, 100))
+donkeykong_img = pygame.transform.scale(donkeykong_img, (100, 100))
 guscio_img = pygame.transform.scale(guscio_img, (40, 40))
 block_width, block_height = 150, 40
 block_img = pygame.transform.scale(block_img, (block_width, block_height))
@@ -66,7 +66,7 @@ platforms = [
 
 # --- Obiettivo (Peach e Orso) ---
 goal = pygame.Rect(730, 50, 70, 100)
-orso_rect = pygame.Rect(goal.x - 90, goal.y + 10, 100, 100)
+donkeykong_rect = pygame.Rect(goal.x - 90, goal.y + 10, 100, 100)
 
 # --- Gusci cadenti ---
 drops = []
@@ -246,7 +246,7 @@ def game_loop():
         screen.blit(background, (0, 0))
         for platform in platforms:
             screen.blit(block_img, (platform.x, platform.y))
-        screen.blit(orso_img, (orso_rect.x, orso_rect.y))
+        screen.blit(donkeykong_img, (donkeykong_rect.x, donkeykong_rect.y))
         screen.blit(peach_img, (goal.x, goal.y))
         screen.blit(mario_img, (player.x, player.y))
         for drop in drops:
