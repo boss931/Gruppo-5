@@ -1,5 +1,11 @@
 # Lezione 4: Menu, Schermate di Vittoria e Gioco Completo
 
+# Immagini
+![immagine schermata](../immagini/Schermata_iniziale4.png)
+![immagine schermata](../immagini/Schermata_principale4.png)
+![immagine schermata](../immagini/Schermata_game_over4.png)
+![immagine schermata](../immagini/Schermata_vittoria4.png)
+
 ## Introduzione
 
 Benvenuto all’ultima lezione del corso **“Salva la Principessa”**!  
