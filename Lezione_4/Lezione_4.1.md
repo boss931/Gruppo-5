@@ -43,6 +43,70 @@ victory_screen()  game_over_screen()
 ```
 per le schermate finali
 
+### 2. Main menu
+Il menu principale è la porta d’ingresso del gioco: la prima schermata che il giocatore vede appena avvia l’applicazione.
+Ha due obiettivi principali:
+
+-Mostrare il titolo del gioco in modo accattivante.
+
+-Permettere di iniziare la partita tramite un pulsante o un tasto.
+
+##Struttura generale:
+
+La funzione main_menu() rimane in attesa dell’input del giocatore (clic o tasto Invio).
+Finché non riceve un’azione, mostra continuamente lo sfondo e il pulsante “GIOCA” al centro dello schermo.
+```python
+def main_menu():
+    while True:
+        screen.blit(background, (0, 0))
+        title = font.render("Salva la Principessa", True, BLACK)
+        screen.blit(title, (WIDTH//2 - title.get_width()//2, 120))
+        play_button = pygame.Rect(WIDTH//2 - 120, HEIGHT//2 - 40, 240, 80)
+        draw_button(play_button, "GIOCA", GREEN, WHITE)
+        pygame.display.flip()
+        for event in pygame.event.get():
+            ...
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if play_button.collidepoint(event.pos):
+                    return
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                return
+````
+
+Come funziona
+
+-Disegno grafico
+Ogni ciclo del while True aggiorna lo schermo: viene mostrato lo sfondo, il titolo e il pulsante “GIOCA”.
+Il pulsante viene disegnato usando la funzione
+```python
+draw_button()
+````
+, che gestisce il colore, il bordo e il testo centrato.
+
+-Attesa dell’input
+Il ciclo controlla continuamente gli eventi generati da 
+```python
+pygame.event.get().
+````
+In particolare:
+
+Se l’utente chiude la finestra, il programma termina 
+```python
+(sys.exit()).
+````
+
+Se l’utente clicca sul pulsante, si verifica una collisione tra il punto del click e il rettangolo play_button (grazie a collidepoint()).
+
+Se l’utente preme Invio, il gioco parte ugualmente.
+
+-Uscita dal menu
+Quando una delle due azioni valide viene rilevata (click o Invio), la funzione ritorna il controllo al ciclo principale:
+```python
+while True:
+    main_menu()
+    game_loop()
+````
+Così il gioco passa automaticamente alla fase successiva: la partita vera e propria.
 ### 2. Pulsanti grafici
 Per rendere il menu interattivo, creeremo pulsanti disegnati su schermo con testo centrato e bordi arrotondati.
 ## Esempio codice:
@@ -59,7 +123,7 @@ E poi usiamo questa funzione nel menu:
 play_button = pygame.Rect(WIDTH//2 - 120, HEIGHT//2 - 40, 240, 80)
 draw_button(play_button, "GIOCA", GREEN, WHITE)
 
-### 3. Schermate di messaggio
+### 3. Schermate di messaggio: vittoria e sconfitta
 Le schermate di vittoria o di sconfitta mostreranno un messaggio elegante, centrato sullo schermo, con uno sfondo semitrasparente; appariranno rispettivamente quando Mario salva la principessa o quando viene colpito dai gusci prima di raggiungerla.
 ## Esempio codice:
 ```python
