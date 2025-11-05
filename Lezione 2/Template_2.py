@@ -67,13 +67,10 @@ while running:
         if player.left < 0:
             player.left = 0
     #TODO: gestisci il movimento del personaggio con i tasti freccia destra e spazio
-    if keys[pygame.K_RIGHT]:
-        player.x += SPEED
-        if player.right > WIDTH:
-            player.right = WIDTH
-    if keys[pygame.K_SPACE] and on_ground:
-        vel_y = -JUMP_POWER
-        on_ground = False
+    #TODO: suggerimento per il movimento con il tasto spazio
+    #TODO: if keys[pygame.K_SPACE] and on_ground:
+                vel_y = -JUMP_POWER
+                on_ground = False
 
     # --- Gravità ---
     vel_y += GRAVITY
@@ -81,7 +78,7 @@ while running:
 
     # --- Collisioni con piattaforme ---
     on_ground = False
-    for platform in platforms:
+    #TODO: ciclo for per vedere se il giocatore tocca una piattaforma
         if player.colliderect(platform):
             # Se stiamo cadendo e tocchiamo la piattaforma
             if vel_y > 0 and player.bottom - vel_y <= platform.top:
