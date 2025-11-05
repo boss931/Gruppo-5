@@ -1,4 +1,4 @@
-# Lezione 2: Aggiungere Mario, la Gravità e le Piattaforme (Versione Approfondita)
+# Lezione 2: Aggiungere Mario, la Gravità e le Piattaforme 
 
 # Immagini
 ![immagine schermata](../immagini/x_readme/Schermata_principale2.png)
