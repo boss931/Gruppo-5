@@ -311,7 +311,7 @@ Ora il gioco ha:
 * **Menu iniziale** con pulsante “Gioca”
 * **Sistema di vite**
 * **Gusci cadenti casuali**
-* **Schermata di vittoria** e **sconfitta**
+* **Schermata di vittoria** 
 * **Flusso completo di gioco**
 
 Da qui puoi continuare a migliorarlo aggiungendo:
