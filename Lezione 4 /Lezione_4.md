@@ -7,7 +7,7 @@ In questa fase concluderemo il nostro videogioco integrando le ultime funzionali
 
 - **Menu iniziale** per avviare la partita.  
 - **Schermata di vittoria** quando Mario salva la Principessa.  
-- **Schermata di sconfitta** quando Mario perde tutte le vite.  
+ 
 
 Alla fine, il gioco sarà completo e pienamente funzionante.
 
@@ -17,7 +17,6 @@ Alla fine, il gioco sarà completo e pienamente funzionante.
 
 1. Creare un **menu iniziale** con pulsante per cominciare.  
 2. Implementare la **schermata di vittoria**.  
-3. Implementare la **schermata di sconfitta**.  
 4. Rifinire la grafica, il flusso di gioco e le interazioni.
 
 ---
