@@ -100,11 +100,7 @@ def show_message(text, color):
     padding_x, padding_y = 60, 40
     box_width = text_rect.width + padding_x
     box_height = text_rect.height + padding_y
-    box_rect = pygame.Rect(
-        (WIDTH - box_width) // 2,
-        (HEIGHT - box_height) // 2,
-        box_width,
-        box_height
+    #TO_DO usa la classe rect per creare il messaggio.
     )
 
     overlay = pygame.Surface((WIDTH, HEIGHT))
@@ -136,23 +132,16 @@ def main_menu():
 
         pygame.display.flip()
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if play_button.collidepoint(event.pos):
-                    return
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                return
+        #TODO scrivi la condinzione che impone la fine del gicoo o l'inizio, tramite condizioni if e elif.
+
+        
 
 def victory_screen():
     screen.blit(background, (0, 0))
     show_message("Hai salvato la principessa!", GREEN)
 
-def game_over_screen():
-    screen.blit(background, (0, 0))
-    show_message("Non hai salvato la principessa!", RED)
+#TODO creazione FUNZIONE GAME OVER
+
 
 # --- Funzione principale del gioco ---
 def game_loop():
@@ -213,9 +202,7 @@ def game_loop():
             on_ground = True
 
         # Vittoria
-        if player.colliderect(goal):
-            victory_screen()
-            return
+       #TODO condizione che regola l'utilizzo della funzione VICTORY
 
         # Gusci cadenti
         now = pygame.time.get_ticks()
@@ -235,13 +222,7 @@ def game_loop():
                 if drop_rect.colliderect(player):
                     vite -= 1
                     drops.remove(drop)
-                    if vite <= 0:
-                        game_over_screen()
-                        return
-                    else:
-                        player.x, player.y = 50, HEIGHT - 150
-                        vel_y = 0
-
+                    #TODO Condizione che regola l utlizzo della funzione GAMEOVeR nel momento in cui le vite scendono a -1
         # --- Disegno ---
         screen.blit(background, (0, 0))
         for platform in platforms:
