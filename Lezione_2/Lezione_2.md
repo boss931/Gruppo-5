@@ -330,5 +330,5 @@ In questa lezione abbiamo imparato a:
  
 Nella **Lezione 3**, aggiungeremo i **gusci cadenti**, il **sistema di vite**, e la logica di **game over**.
  
-[Continua alla Lezione 3 →](Lezione_3.md)
+[Continua alla Lezione 3 →](../Lezione_3/Lezione_3.md)
  
