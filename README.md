@@ -37,25 +37,48 @@ Alla fine del corso avrai sviluppato un vero videogioco chiamato **"Salva la Pri
 
 📁 salva_la_principessa/
 │
-├── Lezione_1.md
-├── Lezione_2.md
-├── Lezione_3.md
-├── Lezione_4.md
-├── salva_la_principessa.py      <-- codice finale completo
+├── Lezione_1
+├────── Lezione_1.md
+├────── Lezione_1.py
+├────── Template_1.py
 │
-├── mario.png
-├── peach.png
-├── orso.png
-├── sfondo.png
-├── blocco.png
-├── guscio.png
-└── fungo.png
+├── Lezione_2
+├────── Lezione_2.md
+├────── Lezione_2.py
+├────── Template_2.py
+│
+├── Lezione_3
+├────── Lezione_3.md
+├────── Lezione_3.py
+├────── Template_3.py
+│
+├── Lezione_4
+├────── Lezione_4.md
+├────── Lezione_4.py
+├────── Template_4.py
+├── codice_completo.py      <-- codice finale completo
+│
+├── immagini
+├────── x_readme
+├───────── Schermata_game_over4.png
+├───────── Schermata_game_over_lezione3.png
+├───────── Schermata_iniziale4.png
+├───────── Schermata_principale1.png
+├───────── Schermata_principale2.png
+├───────── Schermata_principale3.png
+├───────── Schermata_principale4.png
+├───────── Schermata_vittoria4.png
+├───── mario.png
+├───── peach.png
+├───── mattoni
+├───── donkeykong.png
+├───── sfondo.png
+├───── blocco.png
+├───── guscio.png
+└───── fungo.png
+
 
 ````
-
-> Tutte le immagini devono trovarsi nella stessa cartella del file `.py`.
-
----
 
 ## Tecnologie utilizzate
 - **Python 3.x**
