@@ -75,7 +75,7 @@ def draw_vite(vite):
 def game_over_screen():
     screen.fill(BLACK)
     message = font.render("Hai perso! Premi R per riprovare.", True, WHITE)
-    screen.blit(message, (WIDTH//2 - message.get_width()//2, HEIGHT//2))
+    screen.blit(message, (WIDTH//2 - message.get_width()//2, HEIGHT//2)) #centra orizzontalmente il testo e lo disegna a metà altezza
     pygame.display.flip()
     waiting = True
     while waiting:
@@ -89,7 +89,7 @@ def game_over_screen():
 # --- Ciclo principale ---
 running = True
 while running:
-    dt = clock.tick(FPS)
+    dt = clock.tick(FPS) #dt indica il tempo trascorso tra un frame e il successivo
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
