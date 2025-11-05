@@ -58,7 +58,7 @@ Alla fine avrai un videogioco completo e giocabile.
  
 ### Cos’è Pygame?
  
-[Pygame](https://www.pygame.org/) è una collezione di moduli Python per sviluppare videogiochi 2D.  
+Pygame è una collezione di moduli Python per sviluppare videogiochi 2D.  
 Offre strumenti per gestire grafica, suoni, input da tastiera e animazioni.
  
 ### Perché Usare Pygame?
