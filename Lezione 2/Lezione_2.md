@@ -1,5 +1,8 @@
 # Lezione 2: Aggiungere Mario, la Gravità e le Piattaforme (Versione Approfondita)
 
+# Immagini
+![immagine schermata](../immagini/Schermata_principale2.png)
+
 ## Introduzione
 
 Benvenuto alla **Lezione 2** del corso *Salva la Principessa*!  
