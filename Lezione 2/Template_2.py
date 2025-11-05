@@ -67,10 +67,10 @@ while running:
         if player.left < 0:
             player.left = 0
     #TODO: gestisci il movimento del personaggio con i tasti freccia destra e spazio
-    #TODO: suggerimento per il movimento con il tasto spazio
-    #TODO: if keys[pygame.K_SPACE] and on_ground:
-            vel_y = -JUMP_POWER
-            on_ground = False
+    #TODO: suggerimento per il movimento con il tasto spazio...
+    if keys[pygame.K_SPACE] and on_ground:
+        vel_y = -JUMP_POWER
+        on_ground = False
 
     # --- Gravità ---
     vel_y += GRAVITY
