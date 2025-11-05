@@ -34,22 +34,30 @@ L’applicazione ora sarà divisa in **fasi**:
 - Menu principale → Gioco → Vittoria/Sconfitta → Ritorno al menu.
 
 Questo flusso viene gestito tramite funzioni dedicate, come:
-
-main_menu() per il menu iniziale
-
-game_loop() per la partita
-
-victory_screen() e game_over_screen() per le schermate finali
+```python
+main_menu()
+````
+per il menu iniziale
+```python
+game_loop()
+````
+per la partita
+```python
+victory_screen()  game_over_screen()
+```
+per le schermate finali
 
 ### 2. Pulsanti grafici
 Per rendere il menu interattivo, creeremo pulsanti disegnati su schermo con testo centrato e bordi arrotondati.
 ## Esempio codice:
+```python
 def draw_button(rect, text, color, text_color):
     pygame.draw.rect(screen, color, rect, border_radius=15)      # rettangolo arrotondato
     pygame.draw.rect(screen, BLACK, rect, 3, border_radius=15)   # bordo nero
     label = font_small.render(text, True, text_color)            # testo del pulsante
     label_rect = label.get_rect(center=rect.center)
     screen.blit(label, label_rect)
+````
 
 E poi usiamo questa funzione nel menu:
 play_button = pygame.Rect(WIDTH//2 - 120, HEIGHT//2 - 40, 240, 80)
@@ -58,6 +66,7 @@ draw_button(play_button, "GIOCA", GREEN, WHITE)
 ### 3. Schermate di messaggio
 Le schermate di vittoria o di sconfitta mostreranno un messaggio elegante, centrato sullo schermo, con uno sfondo semitrasparente; appariranno rispettivamente quando Mario salva la principessa o quando viene colpito dai gusci prima di raggiungerla.
 ## Esempio codice:
+```python
 def show_message(text, color):
     message = font.render(text, True, color)
     text_rect = message.get_rect()
@@ -80,7 +89,35 @@ def show_message(text, color):
 
     # testo centrato
     screen.blit(message, (box_rect.centerx - text_rect.width//2, box_rect.centery - text_rect.height//2))
+````
+Poi possiamo creare le due schermate finali:
+```python
+def victory_screen():
+    screen.blit(background, (0, 0))
+    show_message("Hai salvato la Principessa!", GREEN)
 
+
+def game_over_screen():
+    screen.blit(background, (0, 0))
+    show_message("Non hai salvato la Principessa!", RED)
+ 
+````
+### 4. Integrazione nel gicoo:
+
+Nel ciclo principale (game_loop) controlliamo le condizioni di vittoria o sconfitta:
+```python
+
+# Vittoria
+if player.colliderect(goal):
+    victory_screen()
+    return
+# Sconfitta
+if drop_rect.colliderect(player):
+            vite -= 1
+            drops.remove(drop)
+            if vite <= 0:
+                game_over_screen()
+                return
 
 ---
 
