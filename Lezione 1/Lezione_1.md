@@ -1,7 +1,7 @@
 # Lezione 1: Iniziare lo sviluppo del gioco con Pygame
 
 # Immagini
-![immagine schermata](../immagini/Schermata_principale1.png)
+![immagine schermata](../immagini/x_readme/Schermata_principale1.png)
 
 ## Introduzione
 
