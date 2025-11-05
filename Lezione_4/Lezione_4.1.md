@@ -33,13 +33,54 @@ Alla fine, il gioco sarà completo e pienamente funzionante.
 L’applicazione ora sarà divisa in **fasi**:
 - Menu principale → Gioco → Vittoria/Sconfitta → Ritorno al menu.
 
-Gestiremo questo flusso tramite funzioni dedicate (`main_menu()`, `game_loop()`, ecc.).
+Questo flusso viene gestito tramite funzioni dedicate, come:
+
+main_menu() per il menu iniziale
+
+game_loop() per la partita
+
+victory_screen() e game_over_screen() per le schermate finali
 
 ### 2. Pulsanti grafici
 Per rendere il menu interattivo, creeremo pulsanti disegnati su schermo con testo centrato e bordi arrotondati.
+## Esempio codice:
+def draw_button(rect, text, color, text_color):
+    pygame.draw.rect(screen, color, rect, border_radius=15)      # rettangolo arrotondato
+    pygame.draw.rect(screen, BLACK, rect, 3, border_radius=15)   # bordo nero
+    label = font_small.render(text, True, text_color)            # testo del pulsante
+    label_rect = label.get_rect(center=rect.center)
+    screen.blit(label, label_rect)
+
+E poi usiamo questa funzione nel menu:
+play_button = pygame.Rect(WIDTH//2 - 120, HEIGHT//2 - 40, 240, 80)
+draw_button(play_button, "GIOCA", GREEN, WHITE)
 
 ### 3. Schermate di messaggio
 Le schermate di vittoria o di sconfitta mostreranno un messaggio elegante, centrato sullo schermo, con uno sfondo semitrasparente; appariranno rispettivamente quando Mario salva la principessa o quando viene colpito dai gusci prima di raggiungerla.
+## Esempio codice:
+def show_message(text, color):
+    message = font.render(text, True, color)
+    text_rect = message.get_rect()
+    padding_x, padding_y = 60, 40
+    box_width = text_rect.width + padding_x
+    box_height = text_rect.height + padding_y
+    box_rect = pygame.Rect(
+        (WIDTH - box_width) // 2,
+        (HEIGHT - box_height) // 2,
+        box_width,
+        box_height
+    )
+
+    # sfondo semitrasparente
+    overlay = pygame.Surface((box_width, box_height))
+    overlay.set_alpha(200)
+    overlay.fill(WHITE)
+    screen.blit(overlay, box_rect)
+    pygame.draw.rect(screen, color, box_rect, 4, border_radius=20)
+
+    # testo centrato
+    screen.blit(message, (box_rect.centerx - text_rect.width//2, box_rect.centery - text_rect.height//2))
+
 
 ---
 
