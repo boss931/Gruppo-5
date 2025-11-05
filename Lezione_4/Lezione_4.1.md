@@ -36,13 +36,9 @@ L’applicazione ora sarà divisa in **fasi**:
 Questo flusso viene gestito tramite funzioni dedicate, come:
 ```python
 main_menu()
-````
-per il menu iniziale
-```python
+
 game_loop()
-````
-per la partita
-```python
+
 victory_screen()  game_over_screen()
 ```
 per le schermate finali
