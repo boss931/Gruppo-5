@@ -23,6 +23,19 @@ mario_img = pygame.transform.scale(mario_img, (60, 60))
 block_width, block_height = 150, 40
 block_img = pygame.transform.scale(block_img, (block_width, block_height))
 
+# --- Piattaforme ---
+platforms = [
+    pygame.Rect(100, 480, block_width, block_height),
+    pygame.Rect(300, 370, block_width, block_height),
+    pygame.Rect(500, 260, block_width, block_height),
+    pygame.Rect(650, 150, block_width, block_height),
+]
+
+# --- Funzione per disegnare piattaforme ---
+def draw_platforms():
+    for platform in platforms:
+        screen.blit(block_img, (platform.x, platform.y))
+    
 # Clock per controllare il framerate
 clock = pygame.time.Clock()
 
