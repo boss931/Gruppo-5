@@ -91,15 +91,6 @@ Per installare Pygame:
 pip install pygame
 ````
 
----
-
-## Avvio del gioco
-
-Esegui:
-
-```bash
-python salva_la_principessa.py
-```
 
 ---
 
