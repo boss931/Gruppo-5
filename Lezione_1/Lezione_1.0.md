@@ -8,10 +8,9 @@ lezione1.md
 ## Introduzione
  
 Benvenuto nella serie di lezioni **“Salva la Principessa”**!  
-In questo corso imparerai a creare un semplice videogioco 2D con **Pygame**, una libreria Python pensata per sviluppare giochi in modo semplice e divertente.
+In questo corso imparerai a creare un semplice videogioco 2D con **Pygame**, una libreria Python pensata per sviluppare giochi in modo semplice e divertente.Alla fine di questo percorso, avrai costruito un gioco completo in cui **Mario** deve saltare su piattaforme, evitare i gusci cadenti e raggiungere **la Principessa Peach**, salvandola da Donkey Kong che la tiene prigioniera.
 
-Alla fine di questo percorso, avrai costruito un gioco completo in cui **Mario** deve saltare su piattaforme, evitare i gusci cadenti e raggiungere **la Principessa Peach**, salvandola da Donkey Kong che la tiene prigioniera.
- 
+
 ---
  
 ## Descrizione del Gioco
