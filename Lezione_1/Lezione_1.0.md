@@ -1,4 +1,3 @@
-lezione1.md 
 
 # Lezione 1: Iniziare lo sviluppo del gioco con Pygame
  
