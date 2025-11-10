@@ -171,7 +171,7 @@ Esegui il file con:
 ```bash
 python lesson_1.py
 ```
- 
+
 A questo punto vedrai apparire una finestra **800x600** con il tuo sfondo, pronta per diventare il mondo del tuo gioco.
  
 ---
