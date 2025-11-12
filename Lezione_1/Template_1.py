@@ -13,7 +13,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption(GAME_TITLE)
 
 # Carica lo sfondo
-background = pygame.image.load("sfondo.png").convert()
+background = pygame.image.load("C:/Users/Asus/downloads/sfondo.png").convert()
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
 # Clock per controllare il framerate
