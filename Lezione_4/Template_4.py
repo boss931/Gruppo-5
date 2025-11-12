@@ -101,7 +101,6 @@ def show_message(text, color):
     box_width = text_rect.width + padding_x
     box_height = text_rect.height + padding_y
     #TO_DO usa la classe rect per creare il messaggio.
-    )
 
     overlay = pygame.Surface((WIDTH, HEIGHT))
     overlay.set_alpha(150)
