@@ -27,9 +27,9 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont("arial", 32, bold=True)
 
 # --- Caricamento immagini ---
-mario_img = pygame.image.load("mario.png").convert_alpha()
-background = pygame.image.load("sfondo.png").convert()
-block_img = pygame.image.load("blocco.png").convert_alpha()
+mario_img = pygame.image.load("C:/Users/Asus/downloads/mario.png").convert_alpha()
+background = pygame.image.load("C:/Users/Asus/downloads/sfondo.png").convert()
+block_img = pygame.image.load("C:/Users/Asus/downloads/blocco.png").convert_alpha()
 # TODO: caricare l'immagine del guscio che cadrà dall'alto
 # TODO: caricare l'immagine del cuore/fungo che rappresenta la vita
 
