@@ -13,9 +13,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption(GAME_TITLE)
 
 # Carica lo sfondo, Mario e i blocchi
-background = pygame.image.load("sfondo.png").convert()
-mario_img = pygame.image.load("mario.png").convert_alpha()
-block_img = pygame.image.load("blocco.png").convert_alpha()
+background = pygame.image.load("C:/Users/Asus/downloads/sfondo.png").convert()
+mario_img = pygame.image.load("C:/Users/Asus/downloads/mario.png").convert_alpha()
+block_img = pygame.image.load("C:/Users/Asus/downloads/blocco.png").convert_alpha()
 
 # --- Ridimensionamento ---
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
@@ -35,6 +35,12 @@ platforms = [
 def draw_platforms():
     for platform in platforms:
         screen.blit(block_img, (platform.x, platform.y))
+        
+# --- Giocatore ---
+player = pygame.Rect(40, HEIGHT - 90, 60, 60)
+vel_y = 0
+on_ground = False
+
     
 # Clock per controllare il framerate
 clock = pygame.time.Clock()
@@ -46,8 +52,10 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # Disegna lo sfondo
+    # Disegna
     screen.blit(background, (0, 0))
+    draw_platforms()
+    screen.blit(mario_img, (player.x, player.y))
 
     # Aggiorna lo schermo
     pygame.display.flip()
