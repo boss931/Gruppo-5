@@ -1,153 +1,131 @@
-# Salva la Principessa — Lezione 3
+# Lezione 3: Gusci cadenti e sistema di vite
 
-Questo file documenta solo le novità introdotte nella Lezione 3 rispetto alla Lezione 2.
-
-In questa lezione sono stati aggiunti:
-
-- Gusci che cadono dall'alto
-- Sistema delle vite con icona grafica
-- Schermata di Game Over con possibilità di ricominciare
-- Gestione del timer per far comparire gli ostacoli in modo casuale
-
-La logica del movimento del giocatore e delle piattaforme rimane invariata rispetto alla Lezione 2.
+![immagine schermata](../immagini/x_readme/Schermata_principale3.png)
+![immagine game over](../immagini/x_readme/Schermata_game_over_lezione3.png)
 
 ---
 
-## Import aggiuntivi
+## Introduzione
 
-import random
+Nella **Lezione 2** abbiamo creato un mondo interattivo con **Mario**, la **gravità** e le **piattaforme**.  
+In questa lezione, il gioco diventa più dinamico introducendo due elementi chiave:
 
-Serve per generare numeri casuali relativi a:
-- Posizione del guscio
-- Velocità di caduta
+1. **Gusci cadenti**: ostacoli lanciati dall’alto che Mario deve evitare.  
+2. **Sistema di vite**: ogni volta che Mario viene colpito da un guscio, perde una vita; il gioco termina quando le vite finiscono.
 
----
-
-## Nuove costanti
-
-DROP_SPEED_MIN = 3
-DROP_SPEED_MAX = 6
-DROP_SPAWN_TIME = 1200
-MAX_VITE = 3
-
-Costante                       | Descrizione
---------------------------------|------------------------------------------------
-DROP_SPEED_MIN / DROP_SPEED_MAX | Velocità minima/max di caduta dei gusci
-DROP_SPAWN_TIME                 | Intervallo di tempo tra uno spawn e l'altro (ms)
-MAX_VITE                        | Numero massimo di vite disponibili per il giocatore
+Questi elementi introducono concetti di **generazione casuale**, **gestione del tempo**, **collisioni** e **feedback visivo** per lo stato di salute del giocatore.
 
 ---
 
-## Caricamento delle nuove immagini
+## Obiettivi didattici
 
-guscio_img = pygame.image.load("guscio.png").convert_alpha()
-cuore_img = pygame.image.load("fungo.png").convert_alpha()
+Al termine di questa lezione, saprai:
 
-- guscio_img: immagine dell’ostacolo cadente
-- cuore_img: icona che rappresenta le vite
-
----
-
-## Ridimensionamento delle immagini
-
-guscio_img = pygame.transform.scale(guscio_img, (40, 40))
-cuore_img = pygame.transform.scale(cuore_img, (32, 32))
-
-- Gusci: 40×40 px
-- Icone vite: 32×32 px
+- Come **creare oggetti dinamici** che cadono dal cielo a intervalli casuali.  
+- Come **rilevare collisioni** tra Mario e i gusci.  
+- Come gestire un **sistema di vite**, sia a livello logico che visivo.  
+- Come bloccare il gioco e mostrare una **schermata di Game Over**, con la possibilità di riprovare premendo **R**.  
+- Concetti di **loop di gioco**, **tempo e intervalli**.
 
 ---
 
-## Variabili aggiunte
+## Concetti chiave
 
-vite = MAX_VITE
-drops = []
-last_drop_time = pygame.time.get_ticks()
+### 1. Gusci cadenti
 
-Variabile      | Funzione
-----------------|---------------------------------------------
-vite           | Vite rimanenti del giocatore
-drops          | Lista contenente i gusci generati
-last_drop_time | Tiene traccia dell’ultimo spawn di un guscio
+I gusci rappresentano un ostacolo variabile. Alcuni punti da considerare:
 
----
+- **Generazione casuale**: la posizione orizzontale e la velocità dei gusci cambiano ad ogni ondata, rendendo il gioco imprevedibile.
+- **Caduta continua**: i gusci si muovono verso il basso fino a scomparire dalla schermata.
+- **Interazione con Mario**: se un guscio colpisce Mario, viene sottratta una vita.
 
-## Disegno delle vite (HUD)
-
-def draw_vite(vite):
-    ...
-
-Disegna in alto a sinistra le vite tramite icone:
-- Vita presente → cuore colorato
-- Vita persa → cuore grigio
+> Questo concetto introduce l’idea di **iterazione degli oggetti nel mondo di gioco**, dove ogni guscio è aggiornato frame per frame.
 
 ---
 
-## Schermata di Game Over
+### 2. Sistema di vite
 
-def game_over_screen():
-    ...
+Il giocatore ha un numero limitato di vite, rappresentate visivamente:
 
-Mostra una schermata nera con il messaggio:
+- **Icone grafiche** (cuori o funghi) indicano le vite rimaste.  
+- Quando Mario viene colpito, il contatore diminuisce e l’icona corrispondente cambia colore o scompare.  
+- Al termine delle vite, appare la **schermata nera di Game Over**, che blocca il gioco fino a che il giocatore non preme **R** per ripartire.
 
-Hai perso! Premi R per riprovare.
-
-Il gioco rimane fermo finché non viene premuto il tasto R.
-
----
-
-## Generazione dei gusci cadenti
-
-now = pygame.time.get_ticks()
-if now - last_drop_time >= DROP_SPAWN_TIME:
-    x_pos = random.randint(0, WIDTH - 40)
-    speed = random.randint(DROP_SPEED_MIN, DROP_SPEED_MAX)
-    drops.append({"x": x_pos, "y": -40, "speed": speed})
-    last_drop_time = now
-
-Funzionamento:
-1. Verifica se è trascorso abbastanza tempo dall’ultimo guscio.
-2. Determina una posizione casuale orizzontale.
-3. Assegna una velocità di caduta casuale.
-4. Aggiunge un nuovo guscio alla lista drops.
+> Questo sistema introduce concetti di **feedback immediato** e **stato di gioco**, fondamentali per qualsiasi gioco interattivo.
 
 ---
 
-## Movimento dei gusci e collisione
+### 3. Collisioni
 
-for drop in drops[:]:
-    drop["y"] += drop["speed"]
+Le collisioni sono fondamentali per determinare:
 
-    if drop["y"] > HEIGHT:
-        drops.remove(drop)
+- Quando un guscio tocca Mario.  
+- Come reagire all’impatto (perdita di vita, rimozione del guscio).  
 
-    drop_rect = pygame.Rect(drop["x"], drop["y"], 40, 40)
-    if drop_rect.colliderect(player):
-        vite -= 1
-        drops.remove(drop)
-
-- I gusci cadono verso il basso incrementando la coordinata Y
-- Vengono rimossi se escono dallo schermo o colpiscono il giocatore
-- Se vite arriva a 0 → Game Over
+> È importante distinguere tra **collisione logica** (variabile vite) e **collisione visiva** (sprite e animazioni).
 
 ---
 
-## Disegno dei nuovi elementi
+### 4. Gestione del tempo
 
-for drop in drops:
-    screen.blit(guscio_img, (drop["x"], drop["y"]))
-draw_vite(vite)
+I gusci cadono a intervalli regolari, non tutti contemporaneamente.  
+Per controllare il tempo di generazione dei gusci si utilizza un **timer interno al gioco**.  
 
-- Disegna i gusci cadenti
-- Disegna le vite (HUD)
+- La gestione del tempo permette di creare **ritmi di gioco variabili** e di aumentare la difficoltà gradualmente.  
+- Concetto chiave: ogni azione nel gioco può dipendere dal **passare dei millisecondi**, non solo dal numero di frame.
 
 ---
 
-## Risultato finale della Lezione 3
+### 5. Schermata di Game Over e iterazione
 
-Funzionalità introdotta | Effetto ottenuto
-------------------------|-----------------------------------
-Gusci cadenti           | Aggiunge una difficoltà reale al gioco
-Sistema delle vite      | Il giocatore può perdere
-Game Over               | Possibilità di ripartire premendo il tasto R
+Quando le vite finiscono:
 
+- Lo schermo diventa **nero** o mostra un messaggio di Game Over.  
+- Il gioco **attende l’input dell’utente** (premere R) per riavviare.  
+- Tutti gli oggetti in gioco (Mario, gusci, piattaforme) vengono **resettati allo stato iniziale**.
+
+> Questo introduce la logica di **iterazione condizionata**: il gioco può fermarsi, attendere input e ripartire senza chiudere l’applicazione.
+
+---
+
+## Approfondimenti teorici
+
+1. **Dinamiche di gioco**  
+   L’aggiunta di gusci e vite trasforma il gioco da un semplice platform a un’esperienza dinamica, dove il giocatore deve **monitorare continuamente il proprio stato e l’ambiente circostante**.
+
+2. **Feedback visivo e psicologia del giocatore**  
+   - Le vite visibili aiutano a comprendere la gravità di ogni errore.  
+   - La schermata nera di Game Over crea **tensione** e stimola la **motivazione a riprovare**.
+
+3. **Iterazione e loop di gioco**  
+   - Ogni elemento (Mario, gusci, piattaforme) viene aggiornato ad ogni ciclo di gioco.  
+   - Questo è un esempio pratico di **programmazione reattiva e basata sugli eventi**.
+
+---
+
+## Esercizi challenge
+
+1. Modifica il numero di vite e osserva come cambia la difficoltà del gioco.  
+2. Aumenta la frequenza dei gusci cadenti o varia la loro velocità.  
+3. Aggiungi effetti visivi o sonori quando Mario perde una vita.  
+4. Prova a implementare un **guscio “bonus”** che aumenta le vite se colpito.  
+
+---
+
+## Riepilogo
+
+In questa lezione abbiamo approfondito:
+
+- Gusci cadenti e generazione casuale degli ostacoli.  
+- Iterazione di Mario e interazione con gli oggetti del gioco.  
+- Sistema di vite visivo e funzionale.  
+- Schermata nera di Game Over con possibilità di ripartenza tramite **R**.  
+- Concetti di loop di gioco, collisioni e gestione del tempo.
+
+Nella **Lezione 4** aggiungeremo:
+
+- La **Principessa Peach** e **Donkey Kong** come personaggi interattivi.  
+- La **schermata di vittoria**.  
+- Un **menu iniziale** interattivo.
+
+[Continua alla Lezione 4 →](../Lezione_4/Lezione_4.md)
