@@ -32,13 +32,13 @@ font = pygame.font.SysFont(None, 72)
 font_small = pygame.font.SysFont("arial", 32, bold=True)
 
 # --- Caricamento immagini ---
-mario_img = pygame.image.load("mario.png").convert_alpha()
-peach_img = pygame.image.load("peach.png").convert_alpha()
-donkeykong_img = pygame.image.load("donkeykong.png").convert_alpha()
-background = pygame.image.load("sfondo.png").convert()
-block_img = pygame.image.load("blocco.png").convert_alpha()
-guscio_img = pygame.image.load("guscio.png").convert_alpha()
-cuore_img = pygame.image.load("fungo.png").convert_alpha()
+mario_img = pygame.image.load("C:/Users/Asus/downloads/mario.png").convert_alpha()
+peach_img = pygame.image.load("C:/Users/Asus/downloads/peach.png").convert_alpha()
+donkeykong_img = pygame.image.load("C:/Users/Asus/downloads/donkeykong.png").convert_alpha()
+background = pygame.image.load("C:/Users/Asus/downloads/sfondo.png").convert()
+block_img = pygame.image.load("C:/Users/Asus/downloads/blocco.png").convert_alpha()
+guscio_img = pygame.image.load("C:/Users/Asus/downloads/guscio.png").convert_alpha()
+cuore_img = pygame.image.load("C:/Users/Asus/downloads/fungo.png").convert_alpha()
 
 # --- Ridimensionamento immagini ---
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
