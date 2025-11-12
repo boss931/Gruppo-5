@@ -23,9 +23,9 @@ pygame.display.set_caption("Salva la Principessa - Lezione 2")
 clock = pygame.time.Clock()
 
 # --- Caricamento immagini ---
-background = pygame.image.load("sfondo.png").convert()
-mario_img = pygame.image.load("mario.png").convert_alpha()
-block_img = pygame.image.load("blocco.png").convert_alpha()
+background = pygame.image.load("C:/Users/Asus/downloads/sfondo.png").convert()
+mario_img = pygame.image.load("C:/Users/Asus/downloads/mario.png").convert_alpha()
+block_img = pygame.image.load("C:/Users/Asus/downloads/blocco.png").convert_alpha()
 
 # --- Ridimensionamento ---
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
