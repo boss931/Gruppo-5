@@ -48,8 +48,10 @@ clock = pygame.time.Clock()
 running = True
 # TODO: ciclo while per far si che se il giocatore vuole chiudere la finestra il gioco termini
 
-    # Disegna lo sfondo
+    # Disegna
     screen.blit(background, (0, 0))
+    draw_platforms()
+    screen.blit(mario_img, (player.x, player.y))
 
     # Aggiorna lo schermo
     pygame.display.flip()
