@@ -26,6 +26,7 @@ block_img = pygame.transform.scale(block_img, (block_width, block_height))
 # --- Piattaforme ---
 platforms = [
     pygame.Rect(100, 480, block_width, block_height),
+    #TODO: prova a creare altri 3 rettangoli con le coordinate che vuoi tu 
     pygame.Rect(300, 370, block_width, block_height),
     pygame.Rect(500, 260, block_width, block_height),
     pygame.Rect(650, 150, block_width, block_height),
