@@ -22,7 +22,6 @@ In **“Salva la Principessa”**, il giocatore controlla Mario e deve:
 ---
  
 ## Come si Gioca
- 
 - **FRECCIA DESTRA:** Muovi Mario a destra  
 - **FRECCIA SINISTRA:** Muovi Mario a sinistra  
 - **BARRA SPAZIATRICE:** Fai saltare Mario 
