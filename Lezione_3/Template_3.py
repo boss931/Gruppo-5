@@ -38,7 +38,7 @@ background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 mario_img = pygame.transform.scale(mario_img, (60, 60))
 block_img = pygame.transform.scale(block_img, (150, 40))
 # TODO: ridimensionare l'immagine del guscio (40,40)
-cuore_img = pygame.transform.scale(cuore_img, (32, 32))
+# TODO: ridimensionare l'immagine del cuore (32,32)
 
 # --- Giocatore ---
 player = pygame.Rect(50, HEIGHT - 150, 60, 60)
@@ -93,7 +93,7 @@ while running:
 
     keys = pygame.key.get_pressed()
 
-    # Movimento orizzontale (Lezione 2 — non va modificato)
+    # Movimento orizzontale (Lezione 2)
     if keys[pygame.K_LEFT]:
         player.x -= SPEED
         if player.left < 0:
@@ -150,8 +150,8 @@ while running:
         screen.blit(block_img, (platform.x, platform.y))
     screen.blit(mario_img, (player.x, player.y))
     for drop in drops:
-        screen.blit(guscio_img, (drop["x"], drop["y"]))
-    draw_vite(vite)
+        # TODO: mostrare a schermo un oggetto (il guscio) nella sua posizione
+    # TODO: aggiorna la grafica delle vite del giocatore
 
     pygame.display.flip()
 
